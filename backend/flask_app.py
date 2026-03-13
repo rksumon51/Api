@@ -15,11 +15,15 @@ from python.terabox3 import TeraboxFile as TF3, TeraboxLink as TL3
 
 #--> Global Variable
 default_mode = 3
+
+# Railway environment cookie
+TERA_COOKIE = os.environ.get("TERA_COOKIE", "")
+
 config : dict[str,any] = {
-    'status'  : 'failed',
-    'message' : 'cookie terabox nya invalid bos, coba lapor ke dapunta',
+    'status'  : 'success' if TERA_COOKIE else 'failed',
+    'message' : 'cookie loaded from railway' if TERA_COOKIE else 'cookie terabox invalid',
     'mode'    : default_mode,
-    'cookie'  : ''
+    'cookie'  : TERA_COOKIE
 }
 
 #--> Main
@@ -50,21 +54,13 @@ def stream() -> Response:
                     'mode3' : ['mode', 'shareid', 'uk', 'sign', 'timestamp', 'fs_id'],
                 },
                 'response' : ['status', 'download_link']}],
-        'message' : 'hayo mau ngapain?'}
+        'message' : 'terabox api running'}
     return Response(response=json.dumps(obj=response, sort_keys=False), mimetype='application/json')
 
-#--> Get Config App
+#--> Get Config
 @app.route('/get_config', methods=['GET'])
 def getConfig() -> Response:
     global config
-    try:
-        x = TS()
-        x.generateCookie()
-        x.generateAuth()
-        log = x.isLogin
-        config = {'status':'success', **x.data} if log else {'status':'failed', 'message':'cookie terabox nya invalid bos, coba lapor ke dapunta', 'mode':default_mode, 'cookie':''}
-    except Exception as e:
-        config = {'status':'failed', 'message':'i dont know why error in config.json : {}'.format(str(e)), 'mode':default_mode, 'cookie':''}
     return Response(response=json.dumps(obj=config, sort_keys=False), mimetype='application/json')
 
 #--> Get file
@@ -76,14 +72,18 @@ def getFile() -> Response:
         result = {'status':'failed', 'message':'invalid params'}
         mode = config.get('mode', default_mode)
         cookie = config.get('cookie','')
+
         if data.get('url') and mode:
             if   mode == 1: TF = TF1()
             elif mode == 2: TF = TF2(cookie)
             elif mode == 3: TF = TF3()
+
             TF.search(data.get('url'))
             result = TF.result
+
     except Exception as e:
-        result = {'status':'failed', 'message':'i dont know why error in terabox app : {}'.format(str(e))}
+        result = {'status':'failed', 'message':str(e)}
+
     return Response(response=json.dumps(obj=result, sort_keys=False), mimetype='application/json')
 
 #--> Get link
@@ -96,29 +96,20 @@ def getLink() -> Response:
         mode = config.get('mode', default_mode)
 
         if mode == 1:
-            required_keys = {'fs_id', 'uk', 'shareid', 'timestamp', 'sign', 'js_token', 'cookie'}
-            if all(key in data for key in required_keys):
-                TL = TL1(**{key: data[key] for key in required_keys})
-                TL.generate()
+            TL = TL1(**data)
+            TL.generate()
 
         elif mode == 2:
-            required_keys = {'url'}
-            if all(key in data for key in required_keys):
-                TL = TL2(**{key: data[key] for key in required_keys})
+            TL = TL2(**data)
 
         elif mode == 3:
-            required_keys = {'shareid', 'uk', 'sign', 'timestamp', 'fs_id'}
-            if all(key in data for key in required_keys):
-                TL = TL3(**{key: data[key] for key in required_keys})
-                TL.generate()
-
-        else:
-            result = {'status':'failed', 'message':'gaada mode nya'}
+            TL = TL3(**data)
+            TL.generate()
 
         result = TL.result
 
-    except:
-        result = {'status':'failed', 'message':'wrong payload'}
+    except Exception as e:
+        result = {'status':'failed', 'message':str(e)}
 
     return Response(response=json.dumps(obj=result, sort_keys=False), mimetype='application/json')
 
