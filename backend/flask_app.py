@@ -1,5 +1,6 @@
 #--> Standard module & library
 import json
+import os
 
 #--> Flask
 from flask import Flask, Response, request
@@ -81,7 +82,8 @@ def getFile() -> Response:
             elif mode == 3: TF = TF3()
             TF.search(data.get('url'))
             result = TF.result
-    except Exception as e: result = {'status':'failed', 'message':'i dont know why error in terabox app : {}'.format(str(e))}
+    except Exception as e:
+        result = {'status':'failed', 'message':'i dont know why error in terabox app : {}'.format(str(e))}
     return Response(response=json.dumps(obj=result, sort_keys=False), mimetype='application/json')
 
 #--> Get link
@@ -92,29 +94,36 @@ def getLink() -> Response:
         data : dict = request.get_json()
         result = {'status':'failed', 'message':'invalid params'}
         mode = config.get('mode', default_mode)
+
         if mode == 1:
             required_keys = {'fs_id', 'uk', 'shareid', 'timestamp', 'sign', 'js_token', 'cookie'}
             if all(key in data for key in required_keys):
                 TL = TL1(**{key: data[key] for key in required_keys})
                 TL.generate()
+
         elif mode == 2:
             required_keys = {'url'}
             if all(key in data for key in required_keys):
                 TL = TL2(**{key: data[key] for key in required_keys})
-            pass
+
         elif mode == 3:
             required_keys = {'shareid', 'uk', 'sign', 'timestamp', 'fs_id'}
             if all(key in data for key in required_keys):
                 TL = TL3(**{key: data[key] for key in required_keys})
                 TL.generate()
-        else : result = {'status':'failed', 'message':'gaada mode nya'}
+
+        else:
+            result = {'status':'failed', 'message':'gaada mode nya'}
+
         result = TL.result
-    except: result = {'status':'failed', 'message':'wrong payload'}
+
+    except:
+        result = {'status':'failed', 'message':'wrong payload'}
+
     return Response(response=json.dumps(obj=result, sort_keys=False), mimetype='application/json')
 
-#--> Initialization
-if __name__ == '__main__':
-    app.run(debug=True)
 
-# https://1024terabox.com/s/1eBHBOzcEI-VpUGA_xIcGQg
-# https://dm.terabox.com/indonesian/sharing/link?surl=KKG3LQ7jaT733og97CBcGg
+#--> Railway compatible start
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
