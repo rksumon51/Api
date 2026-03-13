@@ -1,124 +1,178 @@
-## TeraDL - Terabox File Downloader & Video Streaming
+# API Documentation
 
-<div style="text-align:justify; line-height:1.3;"><b>TeraDL</b> is a platform for streaming videos or downloading Terabox files for free and quickly, so that users don't need to install Terabox application, but only by entering the URL, then the file is ready to be downloaded.<br><a href="/README.md">Indonesia Version</a></div>
+**`Domain`** : [`teradl-api.dapuntaratya.com`](https://teradl-api.dapuntaratya.com)  
+**`Endpoint`** : [`/generate_file`](https://teradl-api.dapuntaratya.com/generate_file) [`/generate_link`](https://teradl-api.dapuntaratya.com/generate_link)
 
-<br>
+Content
+- [Get All File List](#get-all-file-list)
+- [Get Download/Stream Links For Each File](#get-downloadstream-links-for-each-file)
+- [Notes](#notes)
 
-<p align="left" style="max-height: 100%;">
-    <a href="https://github.com/Dapunta/TeraDL/stargazers"><img src="https://img.shields.io/github/stars/Dapunta/TeraDL?style=for-the-badge&color=ff0000" alt="Stars" style="max-height: 100%;"></a>
-    <a href="https://github.com/Dapunta/TeraDL/network/members"><img src="https://img.shields.io/github/forks/Dapunta/TeraDL?style=for-the-badge&color=9f9f00" alt="Forks" style="max-height: 100%;"></a>
-    <a href="https://github.com/Dapunta/TeraDL/commits"><img src="https://img.shields.io/github/commit-activity/t/Dapunta/TeraDL?style=for-the-badge&color=008800" alt="Commits" style="max-height: 100%;"></a>
-    <a href="https://github.com/Dapunta/TeraDL"><img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FDapunta%2FTeraDL&label=visitors&countColor=%230055ff" alt="Visitors" style="max-height: 100%;"></a>
-</p>
+<br><br><br>
 
-### Information
+## Get All File List
 
-<table style="border-collapse: collapse;">
-    <tr>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">Version</td>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">1.5.5</td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">Website</td>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;"><a href="https://teradl.dapuntaratya.com">TeraDL</a></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">API</td>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;"><a href="https://teradl-api.dapuntaratya.com">TeraDL API</a></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">API Doc</td>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;"><a href="/api/README(EN).md">Documentation</a></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">Author</td>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;"><a href="https://www.facebook.com/Dapunta.Khurayra.X">Dapunta Khurayra X</a></td>
-    </tr>
-    <tr>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">Status</td>
-        <td style="border: 1px solid transparent; line-height:1.3; padding: 0px;">Open Source (Full)</td>
-    </tr>
-</table>
-
-### Screenshot
-
-<table style="border-collapse: collapse; width: 100%; max-width: 800px; table-layout: fixed;">
-    <tr>
-        <td style="border: 1px solid transparent; padding: 5px; text-align: center;">
-            <img src="assets/screenshot1.png" alt="Image" style="width: 100%; height: auto;">
-        </td>
-        <td style="border: 1px solid transparent; padding: 5px; text-align: center;">
-            <img src="assets/screenshot2.png" alt="Image" style="width: 100%; height: auto;">
-        </td>
-        <td style="border: 1px solid transparent; padding: 5px; text-align: center;">
-            <img src="assets/screenshot3.png" alt="Image" style="width: 100%; height: auto;">
-        </td>
-    </tr>
-</table>
-
-### TechStack
-
-<table style="border-collapse: collapse; width: 100%;">
-    <tr>
-        <td style="text-align: left; vertical-align: middle; padding: 8px;">
-            <strong>Backend</strong>
-        </td>
-        <td style="vertical-align: middle; padding: 8px;">
-            <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-            <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
-        </td>
-    </tr>
-    <tr>
-        <td style="text-align: left; vertical-align: middle; padding: 8px;">
-            <strong>Frontend</strong>
-        </td>
-        <td style="vertical-align: middle; padding: 8px;">
-            <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
-            <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
-            <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
-        </td>
-    </tr>
-</table>
+To get the entire list of files, send a `POST` request to the [`/generate_file`](https://teradl-api.dapuntaratya.com/generate_file) endpoint with the following parameters :
+- `url` is the target terabox link to be downloaded
 
 <br>
 
-### Changelog
+**`linux (terminal)`**
+```sh
+curl -X POST "https://teradl-api.dapuntaratya.com/generate_file" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://1024terabox.com/s/1eBHBOzcEI-VpUGA_xIcGQg"}'
+```
+
+**`python`**
+```py
+import requests
+
+response = requests.post(
+    url     = "https://teradl-api.dapuntaratya.com/generate_file",
+    headers = {"Content-Type":"application/json"},
+    json    = {"url":"https://1024terabox.com/s/1eBHBOzcEI-VpUGA_xIcGQg"}
+).json()
+```
+
+**`javascript`**
+```js
+const fetchData = async () => {
+    const response = await fetch(
+        "https://teradl-api.dapuntaratya.com/generate_file",
+        {
+            method  : "POST",
+            headers : {"Content-Type":"application/json"},
+            body    : JSON.stringify({"url":"https://1024terabox.com/s/1eBHBOzcEI-VpUGA_xIcGQg"})
+        }
+    );
+    const data = await response.json();
+};
+
+fetchData();
+```
 
 <br>
 
-- **What's New In Version 1.5?**
-    - Bug fixes can't download & stream
-    - Using service from [`hnn`](https://terabox.hnn.workers.dev/) to get download url
-    - Using `Terabox Proxy` for video streaming
-    - New UI display
+Upon success, you will receive the following JSON response :
+
+**`response`**
+```json
+{
+    "status"    : "success",
+    "sign"      : "0f7aa2dc4d7373e307241b7eb1e5c8f55a58dd21",
+    "timestamp" : 1744294847,
+    "shareid"   : 4095377511,
+    "uk"        : 4399535305786,
+    "list"      : [
+        {
+            "is_dir" : 1,
+            "fs_id"  : "375456746849604",
+            "name"   : "KUMPULANMOVIE",
+            "type"   : "other",
+            "size"   : "",
+            "image"  : "",
+            "list"   : [
+                {
+                    "is_dir" : 0,
+                    "fs_id"  : 56206195934797,
+                    "name"   : "The Bourne Ultimatum (2007).mp4",
+                    "type"   : "video",
+                    "size"   : 2732182029,
+                    "image"  : "https://data.terabox.com/thumbnail/88841....",
+                    "list"   : []
+                },
+                {
+                    "is_dir" : 0,
+                    "fs_id"  : 1074701728574105,
+                    "name"   : "The Bourne Supremacy 1997.mp4",
+                    "type"   : "video",
+                    "size"   : 1087005586,
+                    "image"  : "https://data.terabox.com/thumbnail/9b1a9....",
+                    "list"   : []
+                }
+            ]
+        }
+    ]
+}
+```
+
+<br><br><br><br>
+
+## Get Download/Stream Links For Each File
+
+To get a download/stream link for a file, send a `POST` request to the [`/generate_link`](https://teradl-api.dapuntaratya.com/generate_link) endpoint with the following parameters :
+- `uk` is the user ID of the file owner *(obtained from the previous request)*
+- `shareid` is the ID of the shared folder *(obtained from the previous request)*
+- `timestamp` is the timestamp *(obtained from the previous request)*
+- `sign` is the hash signature to authenticate access to the file *(obtained from the previous request)*
+- `fs_id` is the unique ID of the file to be downloaded *(obtained from the previous request)*
 
 <br>
 
-- **What's New In Version 1.4?**
-    - Live video streaming feature
-    - Support download various file formats
-        - Video : `.mp4`, `.mov`, `.mkv`, `.m4v`, `.asf`, `.avi`, `.wmv`, `.m2ts`, `.3g2`
-        - Image : `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`, `.svg`
-        - Others : `.pdf`, `.docx`, `.zip`, `.rar`, `.7z`
+**`linux (terminal)`**
+```sh
+curl -X POST "https://teradl-api.dapuntaratya.com/generate_link" \
+  -H "Content-Type: application/json" \
+  -d '{"uk":4399535305786,"shareid":4095377511,"timestamp":1744294847,"sign":"0f7aa2dc4d7373e307241b7eb1e5c8f55a58dd21","fs_id":56206195934797}'
+```
+
+**`python`**
+```py
+import requests
+
+response = requests.post(
+    url     = "https://teradl-api.dapuntaratya.com/generate_link",
+    headers = {"Content-Type":"application/json"},
+    json    = {
+        "uk"        : 4399535305786,
+        "shareid"   : 4095377511,
+        "timestamp" : 1744294847,
+        "sign"      : "0f7aa2dc4d7373e307241b7eb1e5c8f55a58dd21",
+        "fs_id"     : 56206195934797
+    }
+).json()
+```
+
+**`javascript`**
+```js
+const fetchData = async () => {
+    const response = await fetch(
+        "https://teradl-api.dapuntaratya.com/generate_link",
+        {
+            method  : "POST",
+            headers : {"Content-Type":"application/json"},
+            body    : JSON.stringify({
+                "uk"        : 4399535305786,
+                "shareid"   : 4095377511,
+                "timestamp" : 1744294847,
+                "sign"      : "0f7aa2dc4d7373e307241b7eb1e5c8f55a58dd21",
+                "fs_id"     : 56206195934797,
+            })
+        }
+    );
+    const data = await response.json();
+};
+
+fetchData();
+```
 
 <br>
 
-- **What's New in Version 1.3?**
-    - Added new mode *(`get link` with `cookies` from server side)* so that download URL is more durable, minimizes errors, and download process becomes faster
-        - **Mode 1** : Using dynamic cookies obtained from scrap in real time
-        - **Mode 2** : Using static cookies from admin (admin account login session)
-    - Auto switch mode if `cookies` from server side is invalid
+Upon success, you will receive the following JSON response :
 
-<br>
+**`response`**
+```json
+{
+    "status": "success",
+    "download_link": {
+        "url_1": "https://d-jp02-zen.terabox.com/file/88841...",
+        "url_2": "https://fragrant-term-0df9.elviraeducational.workers.dev/?url=aHR0cHMlM..."
+    }
+}
+```
 
-- **What's New in Version 1.2?**
-
-    - [TeraDL](https://teradl.dapuntaratya.com/) is a continuation project of [TeraStream](https://terastream.dapuntaratya.com/)
-    - Fixes `get file` which previously had error
-    - Changes in programming logic for `get file` and `get link` so that loading process faster
-    - Changes in appearance to be simpler and to make it look more attractive
-
-<br>
+<br><br><br>
 
 ### Notes
 
